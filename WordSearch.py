@@ -12,11 +12,19 @@ class Solution:
     """
 
     def __init__(self) -> None:
+        """
+        Comment for leetcode
         self.board: List[List[str]] = None
         self.indexes: List[Tuple[int, int]] = None
         self.word: str = None
         self.len_x: int = None
         self.len_y: int = None
+        """
+        self.board = None
+        self.indexes = None
+        self.word = None
+        self.len_x = None
+        self.len_y = None
 
     def exist(self, board: List[List[str]], word: str) -> bool:
         """
@@ -43,7 +51,6 @@ class Solution:
             return True
 
         for (i, j) in indexes:
-            now_list.append((i, j))
             if self.board[i][j] == self.word[word_index] \
                     and self.dfs_get(self.get_adjacent_cells(i, j, now_list), word_index + 1, now_list + [(i, j)]):
                 return True
@@ -72,6 +79,7 @@ board_for_test = [
     ['S', 'F', 'C', 'S'],
     ['A', 'D', 'E', 'E']
 ]
+assert Solution().exist([["a", "b"]], "ba")
 assert Solution().exist(board_for_test, "ABCCED")
 assert Solution().exist(board_for_test, "SEE")
 assert Solution().exist(board_for_test, "ABCB") is False
