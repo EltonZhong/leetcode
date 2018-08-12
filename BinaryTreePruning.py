@@ -11,7 +11,7 @@ TODO: EHANCEMETNS:
     2. refactor to find from son to father
 """
 
-from typing import Optional, Union
+from typing import Union
 
 
 class TreeNode:
@@ -63,5 +63,3 @@ class Solution:
             return False
 
         return self.is_node_empty(node.left) and self.is_node_empty(node.right)
-
-
