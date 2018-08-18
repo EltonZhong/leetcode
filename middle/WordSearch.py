@@ -48,32 +48,30 @@ class Solution:
         :param now_list:
         :return:
         """
+
+        stor_obj = {
+            'key': self.word[word_index:],
+            'result': True,
+            'now_list': now_list
+        }
+
+        store_result = self.get_from_store(stor_obj)
+        if store_result is not None:
+            return store_result
+
         if word_index == len(self.word):
+            self.store.append(stor_obj)
             return True
 
         for (i, j) in indexes:
-            stor_obj = {
-                'word_index': word_index,
-                'ij': (i, j),
-                'board': self.board,
-                'now_list': now_list,
-                'result': True,
-                'word': self.word
-            }
-
-            store_result = self.get_from_store(stor_obj)
-            if store_result is not None:
-                return store_result
 
             if self.board[i][j] == self.word[word_index] \
                     and self.dfs_get(self.get_adjacent_cells(i, j, now_list), word_index + 1, now_list + [(i, j)]):
-
                 self.store.append(stor_obj)
                 return True
-            else:
 
-                stor_obj['result'] = False
-                self.store.append(stor_obj)
+        stor_obj['result'] = False
+        self.store.append(stor_obj)
 
         return False
 
@@ -121,7 +119,6 @@ board_for_test = [
     ['S', 'F', 'C', 'S'],
     ['A', 'D', 'E', 'E']
 ]
-assert Solution().exist([["a", "b"]], "ba")
 assert Solution().exist(board_for_test, "ABCCED")
 assert Solution().exist(board_for_test, "SEE")
 assert Solution().exist(board_for_test, "ABCB") is False
