@@ -3,7 +3,7 @@
 {@link https://leetcode.com/problems/word-search/description/}
 fucking leetcode doesn't support type hinting in func params
 """
-from typing import List, Tuple
+from typing import List, Tuple, Union, Optional
 
 
 class Solution:
@@ -25,6 +25,7 @@ class Solution:
         self.word = None
         self.len_x = None
         self.len_y = None
+        self.store = []
 
     def exist(self, board: List[List[str]], word: str) -> bool:
         """
@@ -51,9 +52,28 @@ class Solution:
             return True
 
         for (i, j) in indexes:
+            stor_obj = {
+                'word_index': word_index,
+                'ij': (i, j),
+                'board': self.board,
+                'now_list': now_list,
+                'result': True,
+                'word': self.word
+            }
+
+            store_result = self.get_from_store(stor_obj)
+            if store_result is not None:
+                return store_result
+
             if self.board[i][j] == self.word[word_index] \
                     and self.dfs_get(self.get_adjacent_cells(i, j, now_list), word_index + 1, now_list + [(i, j)]):
+
+                self.store.append(stor_obj)
                 return True
+            else:
+
+                stor_obj['result'] = False
+                self.store.append(stor_obj)
 
         return False
 
@@ -72,6 +92,28 @@ class Solution:
         # This way is adviced in python3, while above is not
         adjacent_cells = [cell for cell in adjacent_cells if cell not in now_list]
         return adjacent_cells
+
+    def get_from_store(self, store_obj: dict) -> object:
+        """
+
+        :return:
+        """
+        def is_map(store_obj: dict, ano_store_obj: dict) -> bool:
+            """
+            is in store
+            :return:
+            """
+
+            for k, v in store_obj.items():
+                if k != 'result' and ano_store_obj.get(k) != v:
+                    return False
+
+            return True
+
+        found = list(filter(lambda a: is_map(a, store_obj), self.store))
+        if len(found):
+            return found[0].get('result')
+        return None
 
 
 board_for_test = [
