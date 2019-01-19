@@ -24,15 +24,10 @@ class Solution:
                 b = True
                 final.extend(intervals[intervals.index(i):])
                 break
-            n = self.merge(n, i)
-
+            n.start = min(n.start, i.start)
+            n.end = max(n.end, i.end)
         if n not in final:
             final.append(n)
         return final
 
-
-    def merge(self, n, i):
-        n.start = min(n.start, i.start)
-        n.end = max(n.end, i.end)
-        return n
 
